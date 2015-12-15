@@ -2,6 +2,7 @@ name: RealTalk
 author: Primus
 authors: [Primus]
 api: [1.11.0, 1.12.0, 1.13.0]
+main: RealTalk\RealTalk
 version: 0.0.1
 
 # Commands will be registered through CommandMap::register()
