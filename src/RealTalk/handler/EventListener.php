@@ -2,7 +2,9 @@
 namespace RealTalk\handler;
 
 use RealTalk\RealTalk;
+
 use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerChatEvent;
 
 class EventListener implements Listener {
   
