@@ -17,4 +17,19 @@ class EventListener implements Listener {
     return $this->owner;
   }
   
+  public function onChat(PlayerChatEvent $event){
+    $player = $event->getPlayer();
+    $recipients = [];
+    
+    $radius = $this->getPlugin()->getRadiusForPlayer($player);
+    
+    if($radius === false) return;
+    
+    foreach($player->getLevel()->getPlayers() as $target){
+      if($this->getPlugin()->isWithinRadius($player, $target, $radius)) $recipients[] = $target;
+    }
+    
+    $event->setRecipients($recipients);
+  }
+  
 }
