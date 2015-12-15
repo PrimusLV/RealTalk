@@ -47,7 +47,7 @@ class RealTalk extends PluginBase {
     $commandMap = $this->getServer()->getCommandMap();
     $commandMap->register("RealTalk", new Shout($this, "shout", "Yell out your message farther", "/shout <...message>", ['yell', 'shout', 'scream', 's']));
     $commandMap->register("RealTalk", new Whisper($this, "whisper", "Whisper your message for close distance", "/whisper <...message>", ["sizzle", "murmurm", "fizzle"]));
-    $commandMap->register("RealTalk", new Toggle($this, "toggle", "Enable/Disable RealTalk all features", "/realtalk", ["rt", "rtt", "rton", "rtoff"]));
+    $commandMap->register("RealTalk", new RealTalk($this, "realtalk", "Main RealTalk's command", "/realtalk", ["realt", "rtalk", "rt"]));
   }
   
   public function getTalkRadius(){
