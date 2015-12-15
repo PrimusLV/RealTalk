@@ -1,16 +1,24 @@
 <?php
 namespace RealTalk;
 
+use RealTalk\handler\EventListener;
+
+use RealTalk\command\Shout;
+use RealTalk\command\Whisper;
+use RealTalk\command\Toggle;
+
 use pocketmine\plugin\PluginBase;
 
 class RealTalk extends PluginBase {
 
+  /** @var bool */
+  protected $enabled = true;
   /** @var int */
-  protected $radius;
+  protected $radius = 12;
   /** @var int */
-  protected $whisperRadius;
+  protected $whisperRadius = 4;
   /** @var int */
-  protected $shoutRadius;
+  protected $shoutRadius = 26;
   
   public function __construct(){
     # Set values for class properties
