@@ -24,6 +24,8 @@ class RealTalk extends PluginBase {
   protected $whisperRadius = 4;
   /** @var int */
   protected $shoutRadius = 26;
+  /** @var array */
+  protected $action;
   
   public function __construct(){
     # Set values for class properties
@@ -38,6 +40,11 @@ class RealTalk extends PluginBase {
     $this->saveDefaultConfig();
     $this->registerCommands();
     $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
+    
+    foreach($this->getServer()->getOnlinePlayers() as $p){ // Handle reload
+      $this->action[spl_object_hash($p)] = self::TALK;
+    }
+    
   }
   public function onDisable(){
     $this->getConfig()->save();
@@ -63,10 +70,7 @@ class RealTalk extends PluginBase {
   }
   
   public function getRadiusForPlayer(IPlayer $player){
-    if(!isset($this->type[spl_object_hash($player)])){
-      return $this->getTalkRadius();
-    } else {
-      switch($this->getType($player)){
+      switch($this->getActionType($player)){
         case self::OMNISCIENT:
           return false; // Will see all messages
           break;
@@ -81,6 +85,14 @@ class RealTalk extends PluginBase {
           return $this->getShoutRadius();
           break;
       }
+    }
+  }
+  
+  public function getActionType(IPlayer $player){
+    if(isset($action = $this->action[spl_object_hash($player)])){
+      return $action;
+    } else {
+      return self::TALK;
     }
   }
   
