@@ -10,6 +10,11 @@ use RealTalk\command\Toggle;
 use pocketmine\plugin\PluginBase;
 
 class RealTalk extends PluginBase {
+  
+  const OMNISCIENT = 1;
+  const YELL = 2;
+  const TALK = 3;
+  const WHISPER = 4;
 
   /** @var bool */
   protected $enabled = true;
