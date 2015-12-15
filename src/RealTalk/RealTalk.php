@@ -31,10 +31,18 @@ class RealTalk extends PluginBase {
   public function onEnable(){
     @mkdir($this->getDataFolder());
     $this->saveDefaultConfig();
+    $this->registerCommands();
     $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
   }
   public function onDisable(){
     $this->getConfig()->save();
+  }
+  
+  private funcion registerCommands(){
+    $commandMap = $this->getServer()->getCommandMap();
+    $commandMap->register("RealTalk", new Shout($this, "shout", "Yell out your message farther", "/shout <...message>", ['yell', 'shout', 'scream', 's']));
+    $commandMap->register("RealTalk", new Whisper($this, "whisper", "Whisper your message for close distance", "/whisper <...message>", ["sizzle", "murmurm", "fizzle"]));
+    $commandMap->register("RealTalk", new Toggle($this, "toggle", "Enable/Disable RealTalk all features", "/realtalk", ["rt", "rtt", "rton", "rtoff"]));
   }
   
   public function getTalkRadius(){
@@ -42,11 +50,33 @@ class RealTalk extends PluginBase {
   }
   
   public function getWhisperRadius(){
-    return $this->whiperRadius;
+    return $this->whisperRadius;
   }
   
   public function getShoutRadius(){
-    return $this->shoutRadius();
+    return $this->shoutRadius;
+  }
+  
+  public function getRadiusForPlayer(IPlayer $player){
+    if(!isset($this->type[spl_object_hash($player)])){
+      return $this->getTalkRadius();
+    } else {
+      switch($this->getType($player)){
+        case self::OMNISCIENT:
+          return false; // Will see all messages
+          break;
+        default:
+        case self::TALK:
+          return $this->getTalkRadius();
+          break;
+        case self::WHISPER:
+          return $this->getWhisperRadius();
+          break;
+        case self::YELL:
+          return $this->getShoutRadius();
+          break;
+      }
+    }
   }
   
   /**
