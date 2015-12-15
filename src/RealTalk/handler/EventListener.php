@@ -20,6 +20,7 @@ class EventListener implements Listener {
   }
   
   public function onChat(PlayerChatEvent $event){
+    if($this->getPlugin()->enabled === false) return;
     $player = $event->getPlayer();
     $recipients = [];
     
